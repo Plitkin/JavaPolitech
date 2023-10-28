@@ -1,4 +1,6 @@
-package lab1;
+package lab1.Country;
+
+import java.text.DecimalFormat;
 
 public class Country {
     private String name;
@@ -46,8 +48,9 @@ public class Country {
     }
 
     // Геттер для плотности населения
-    public double getPopulationDensity() {
-        return population / area;
+    public String getPopulationDensity() {
+        DecimalFormat format = new DecimalFormat("0.00");
+        return format.format(population / area);
     }
 
     // Сеттеры
@@ -85,15 +88,29 @@ public class Country {
 
     // Метод для печати информации о стране
     public void print() {
-        System.out.println("Название страны: " + name);
-        System.out.println("Площадь: " + area + " кв. км");
-        System.out.println("Население: " + population + " чел.");
+        DecimalFormat format = new DecimalFormat("0.0"); // Создаем форматтер для чисел с одним знаком после запятой
+        String formattedArea = format.format(area / 1e6) + " млн. кв. км."; // Форматируем площадь в миллионах кв. км.
+        String formattedPopulation = format.format(population / 1e6) + " млн. чел."; // Форматируем население в миллионах человек
+        String formattedCapitalPopulation = format.format(capitalPopulation / 1e6) + " млн чел."; // Форматируем население столицы в миллионах человек
+
+        String areaString = area < 1e6 ? format.format(area / 1e3) + " тыс. кв. км." : formattedArea; // Форматируем площадь в тысячах кв. км., если она меньше миллиона, иначе оставляем форматированную площадь в миллионах
+        String populationString = population < 1e6 ? format.format(population / 1e3) + " тыс. чел." : formattedPopulation; // Форматируем население в тысячах человек, если оно меньше миллиона, иначе оставляем форматированное население в миллионах
+
+        System.out.println("Название страны: " + name); // Выводим название страны
+        System.out.println("Площадь: " + areaString); // Выводим площадь
+        System.out.println("Население: " + populationString); // Выводим население
+
         if (!capitalName.isEmpty()) {
-            System.out.println("Столица: " + capitalName);
-            System.out.println("Население столицы: " + capitalPopulation + " чел.");
+            String capitalPopulationString = capitalPopulation < 1e6 ? format.format(capitalPopulation / 1e3) + " тыс. чел." : formattedCapitalPopulation; // Форматируем население столицы в тысячах человек, если оно меньше миллиона, иначе оставляем форматированное население столицы в миллионах
+
+            System.out.println("Столица: " + capitalName); // Выводим название столицы
+            System.out.println("Население столицы: " + capitalPopulationString); // Выводим население столицы
         }
-        System.out.println("Плотность населения: " + getPopulationDensity() + " чел./кв. км");
+        System.out.println("Плотность населения: " + getPopulationDensity() + " чел./кв. км"); // Выводим плотность населения
     }
+
+
+
 
     // Статический метод для печати информации о массиве стран
     public static void printAll(Country[] countries) {
