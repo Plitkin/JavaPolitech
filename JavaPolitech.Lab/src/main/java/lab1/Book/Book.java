@@ -7,8 +7,8 @@ class Publisher {
 
     // Конструктор класса Publisher для инициализации названия и города издательства.
     public Publisher(String name, String city) {
-        this.name = name;
-        this.city = city;
+        setName(name);
+        setCity(city);
     }
 
     // Геттеры для получения названия и города издательства.
@@ -22,7 +22,7 @@ class Publisher {
 
     // Сеттеры для установки названия и города издательства с проверкой на пустую ссылку.
     public void setName(String name) {
-        if (name != null && !name.isEmpty()) {
+        if (name != null && !name.trim().isEmpty()) {
             this.name = name;
         } else {
             throw new IllegalArgumentException("Имя издательства не может быть пустым");
@@ -46,27 +46,23 @@ class Book {
     private String[] authors; // Массив авторов книги
 
     // Конструкторы класса Book для инициализации книги.
-    // Конструктор для инициализации книги с названием, годом, и издательством (без авторов).
+    // Конструктор для инициализации книги с названием, годом и издательством (без авторов).
     public Book(String title, int year, Publisher publisher) {
-        this.title = title;
-        this.year = year;
-        this.publisher = publisher;
+        setTitle(title);
+        setYear(year);
+        setPublisher(publisher);
     }
 
     // Конструктор для инициализации книги с названием, одним автором, годом и издательством.
     public Book(String title, String author, int year, Publisher publisher) {
-        this.title = title;
-        this.authors = new String[]{author};
-        this.year = year;
-        this.publisher = publisher;
+        this(title, year, publisher);
+        setAuthors(new String[]{author});
     }
 
     // Конструктор для инициализации книги с названием, списком авторов, годом и издательством.
     public Book(String title, String[] authors, int year, Publisher publisher) {
-        this.title = title;
-        this.authors = authors;
-        this.year = year;
-        this.publisher = publisher;
+        this(title, year, publisher);
+        setAuthors(authors);
     }
 
     // Геттеры для получения названия, издательства, года издания и авторов книги.
@@ -153,8 +149,11 @@ class Book {
         System.out.println("Название: " + title);
         if (authors != null && authors.length > 0) {
             System.out.print("Автор(ы): ");
-            for (String author : authors) {
-                System.out.print(author + ", ");
+            for (int i = 0; i < authors.length; i++) {
+                System.out.print(authors[i]);
+                if (i < authors.length - 1) {
+                    System.out.print(", ");
+                }
             }
             System.out.println();
         }

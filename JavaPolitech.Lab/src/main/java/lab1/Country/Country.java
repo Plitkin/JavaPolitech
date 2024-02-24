@@ -11,19 +11,20 @@ public class Country {
 
     // Конструктор, принимающий значения всех атрибутов
     public Country(String name, double area, double population, String capitalName, double capitalPopulation) {
-        if (area <= 0 || population <= 0 || name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Неверные данные для страны");
-        }
-        this.name = name;
-        this.area = area;
-        this.population = population;
-        this.capitalName = capitalName;
-        this.capitalPopulation = capitalPopulation;
+        // Проверка на корректность входных данных с использованием сеттеров
+        setName(name);
+        setArea(area);
+        setPopulation(population);
+        setCapital(capitalName, capitalPopulation);
     }
 
     // Конструктор для городов-государств
     public Country(String name, double area, double population) {
-        this(name, area, population, "", 0);
+        // Проверка на корректность входных данных с использованием сеттеров
+        setName(name);
+        setArea(area);
+        setPopulation(population);
+        resetCapital();
     }
 
     // Геттеры
@@ -77,6 +78,9 @@ public class Country {
 
     // Метод для задания/сброса данных о столице
     public void setCapital(String capitalName, double capitalPopulation) {
+        if (capitalPopulation <= 0 || capitalName == null || capitalName.isEmpty()) {
+            throw new IllegalArgumentException("Неверные данные для столицы");
+        }
         this.capitalName = capitalName;
         this.capitalPopulation = capitalPopulation;
     }
@@ -108,9 +112,6 @@ public class Country {
         }
         System.out.println("Плотность населения: " + getPopulationDensity() + " чел./кв. км"); // Выводим плотность населения
     }
-
-
-
 
     // Статический метод для печати информации о массиве стран
     public static void printAll(Country[] countries) {
